@@ -1,7 +1,9 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
-from db import db
+
 
 from security import authenticate, identity
 from resources.user import UserRegister
@@ -11,7 +13,8 @@ from resources.store import Store, StoreList
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #turning off the flask sqlalchmey sync tracker
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+# geting url for PostgressDB in Heroku. default is sqlite3 if DATABASE_URL not defined
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.secret_key = 'ronen'
 api = Api(app)
 
