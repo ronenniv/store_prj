@@ -15,11 +15,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.secret_key = 'ronen'
 api = Api(app)
 
-# SQLAlchemy will create the tables jsut before the first request
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
 jwt = JWT(app, authenticate, identity) #JWT create new endpoint /auth
 
 # name is the parmaters for the get function
@@ -32,7 +27,6 @@ api.add_resource(StoreList, '/stores') # http://127.0.0.1:5000/items
 
 
 def main():
-
     '''connecting to SQLAlchemy'''
     from db import db
     db.init_app(app)
@@ -40,5 +34,7 @@ def main():
     #starting the app
     app.run(port=5000, debug=True)
 
+'''
 if __name__ == '__main__':
     main()
+'''
