@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from models.store import StoreModel
-from db import db
+
 
 class Store(Resource):
 
@@ -26,6 +26,7 @@ class Store(Resource):
             return {"message": f"Store {name} deleted"}, 200
         else:
             return {"message": f"store not found"}, 404
+
 
 class StoreList(Resource):
 

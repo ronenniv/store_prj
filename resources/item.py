@@ -1,10 +1,9 @@
-import sqlite3
 from flask_restful import Resource
 from flask_jwt import jwt_required
 from models.item import ItemModel
 
-class Item(Resource):
 
+class Item(Resource):
 
     @jwt_required()
     def get(self, name):
@@ -15,27 +14,23 @@ class Item(Resource):
         else:
             return {"message" : "item not found"}, 404 # 404 not found
 
-
     @jwt_required()
     def post(self, name):
         if ItemModel.find_by_name(name):
-            return {'message': f'Item {name} already exist'}, 400 # 400 for bad request
+            return {'message': f'Item {name} already exist'}, 400  # 400 for bad request
 
-        data = ItemModel.parse_price() # parse JSON for price
-        #data = request.get_json(force=True) #force=True - do not look on the header. always process it as JSON. silent=True - in error return None, instead of error
+        data = ItemModel.parse_price()  # parse JSON for price
+        # data = request.get_json(force=True) #force=True - do not look on the header. always process it as JSON. silent=True - in error return None, instead of error
         item = ItemModel(name, **data)
         print(item.json())
-        try:
-            item.save_to_db()
-            print(f'saved to db with {item.name} and {item.price}')
-        except sqlite3.OperationalError:
-            return {"message": f"OperetionalError"}, 500
-        else:
-            return {'item': item.json()}, 201 # 201 return code for created
+
+        item.save_to_db()
+        print(f'saved to db with {item.name} and {item.price}')
+        return {'item': item.json()}, 201  # 201 return code for created
 
     @jwt_required()
     def delete(self, name):
-        #first find if item name exist in DB
+        # first find if item name exist in DB
         item = ItemModel.find_by_name(name)
         if item:
             item.delete_from_db()
