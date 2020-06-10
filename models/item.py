@@ -1,7 +1,9 @@
-from flask_restful import reqparse
 from db import db
 
-class ItemModel(db.Model): #extend db.Model for SQLAlechemy
+from flask_restful import reqparse
+
+
+class ItemModel(db.Model):  # extend db.Model for SQLAlechemy
 
     __tablename__ = 'item'
 

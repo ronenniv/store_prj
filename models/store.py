@@ -1,7 +1,8 @@
-from flask_restful import reqparse
 from db import db
+from flask_restful import reqparse
 
-class StoreModel(db.Model): #extend db.Model for SQLAlechemy
+
+class StoreModel(db.Model):  # extend db.Model for SQLAlechemy
 
     __tablename__ = 'stores'
 
@@ -11,7 +12,7 @@ class StoreModel(db.Model): #extend db.Model for SQLAlechemy
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True)
 
-    items = db.relationship('ItemModel', lazy='dynamic') # this definition comes together with the define in StoreModel. Lazy will ask to note create entires for items
+    items = db.relationship('ItemModel', lazy='dynamic')  # this definition comes together with the define in StoreModel. Lazy will ask to note create entires for items
 
 
     def __init__(self, name):
