@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask_jwt import jwt_required
 from models.item import ItemModel
+from flask import current_app
 
 
 class Item(Resource):
@@ -20,12 +21,11 @@ class Item(Resource):
             return {'message': f'Item {name} already exist'}, 400  # 400 for bad request
 
         data = ItemModel.parse_price()  # parse JSON for price
-        # data = request.get_json(force=True) #force=True - do not look on the header. always process it as JSON. silent=True - in error return None, instead of error
         item = ItemModel(name, **data)
-        print(item.json())
+        current_app.logger.debug(item.json())
 
         item.save_to_db()
-        print(f'saved to db with {item.name} and {item.price}')
+        current_app.logger.debug(f'saved to db with {item.name} and {item.price}')
         return {'item': item.json()}, 201  # 201 return code for created
 
     @jwt_required()

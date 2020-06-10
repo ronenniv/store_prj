@@ -1,4 +1,5 @@
 import os
+import logging
 
 from flask import Flask
 from flask_restful import Api
@@ -12,14 +13,33 @@ from resources.store import Store, StoreList
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # turning off the flask sqlalchmey sync tracker
-# geting url for PostgressDB in Heroku. default is sqlite3 if DATABASE_URL not defined
+# getting url for PostgresDB in Heroku. default is sqlite3 if DATABASE_URL not defined
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.secret_key = 'ronen'
 api = Api(app)
 
+# setting log configuration
+
+log_index = \
+    {'DEBUG': logging.DEBUG,
+     'INFO': logging.INFO,
+     'WARNING': logging.WARNING,
+     'ERROR': logging.ERROR,
+     'CRITICAL': logging.CRITICAL}
+try:
+    logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
+                        datefmt='%m/%d/%Y %I:%M:%S',
+                        level=log_index[os.environ.get('DEBUG_LEVEL', 'WARNING')])
+except KeyError:
+    app.logger.error('Incorrect DEBUG_LEVEL %s. Setting WARNING level'.format(os.environ.get('DEBUG_LEVEL')))
+    logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
+                        datefmt='%m/%d/%Y %I:%M:%S',
+                        level=logging.WARNING)
+
+
 jwt = JWT(app, authenticate, identity)  # JWT create new endpoint /auth
 
-# name is the parmaters for the get function
+# name is the parameters for the get function
 api.add_resource(Item, '/item/<string:name>')  # http://127.0.0.1:5000/item/<name>
 api.add_resource(ItemList, '/items')  # http://127.0.0.1:5000/items
 api.add_resource(UserRegister, '/register')  # user authentication

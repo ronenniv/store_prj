@@ -28,12 +28,12 @@ class StoreModel(db.Model): #extend db.Model for SQLAlechemy
 
     @classmethod
     def find_by_name(cls, name):
-        '''find in DB the store with name
-        if found update price and return True, otherwise False'''
+        """find in DB the store with name
+        if found update price and return True, otherwise False"""
         return cls.query.filter_by(name=name).first() # SQLAlchemy -> SELECT * FROM item WHERE name=name
 
     def save_to_db(self):
-        '''updade or insert to the DB new store'''
+        '''update or insert to the DB new store'''
         if StoreModel.query.filter_by(name=self.name).first():
             StoreModel.query.filter_by(name=self.name).update(dict(price=self.price))
         db.session.add(self)
