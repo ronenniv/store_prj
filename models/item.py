@@ -36,12 +36,12 @@ class ItemModel(db.Model):  # extend db.Model for SQLAlechemy
 
     @classmethod
     def find_by_name(cls, name):
-        '''find in DB the item with name
-        if found update price and return True, otherwise False'''
-        return cls.query.filter_by(name=name).first() # SQLAlchemy -> SELECT * FROM item WHERE name=name
+        """find in DB the item with name
+        if found update price and return True, otherwise False"""
+        return cls.query.filter_by(name=name).first()  # SQLAlchemy -> SELECT * FROM item WHERE name=name
 
     def save_to_db(self):
-        '''updade or insert to the DB new item'''
+        """updade or insert to the DB new item"""
         if ItemModel.query.filter_by(name=self.name).first():
             ItemModel.query.filter_by(name=self.name).update(dict(price=self.price))
         else:
@@ -49,6 +49,6 @@ class ItemModel(db.Model):  # extend db.Model for SQLAlechemy
         db.session.commit()
 
     def delete_from_db(self):
-        '''delete record from DB'''
+        """delete record from DB"""
         db.session.delete(self)
         db.session.commit()

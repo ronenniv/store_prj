@@ -56,4 +56,3 @@ class ItemList(Resource):
         return {'items': [item.json() for item in ItemModel.query.all()]}
 
 
-
