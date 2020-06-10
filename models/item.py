@@ -1,7 +1,9 @@
-from flask_restful import reqparse
 from db import db
 
-class ItemModel(db.Model): #extend db.Model for SQLAlechemy
+from flask_restful import reqparse
+
+
+class ItemModel(db.Model):  # extend db.Model for SQLAlechemy
 
     __tablename__ = 'item'
 
@@ -12,10 +14,9 @@ class ItemModel(db.Model): #extend db.Model for SQLAlechemy
     name = db.Column(db.String(80), unique=True)
     price = db.Column(db.Float(precision=2))
 
-    #define the relationship between item table and store. . relationship needs to be defined also for store table
-    store_id = db.Column(db.Integer, db.ForeignKey('stores.id')) #define foreign key to stores table
-    store = db.relationship('StoreModel') # define the relation to the object
-
+    # define the relationship between item table and store. . relationship needs to be defined also for store table
+    store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))  # define foreign key to stores table
+    store = db.relationship('StoreModel')  # define the relation to the object
 
     def __init__(self, name, price, store_id):
         self.name = name
@@ -34,12 +35,12 @@ class ItemModel(db.Model): #extend db.Model for SQLAlechemy
 
     @classmethod
     def find_by_name(cls, name):
-        '''find in DB the item with name
-        if found update price and return True, otherwise False'''
-        return cls.query.filter_by(name=name).first() # SQLAlchemy -> SELECT * FROM item WHERE name=name
+        """find in DB the item with name
+        if found update price and return True, otherwise False"""
+        return cls.query.filter_by(name=name).first()  # SQLAlchemy -> SELECT * FROM item WHERE name=name
 
     def save_to_db(self):
-        '''updade or insert to the DB new item'''
+        """updade or insert to the DB new item"""
         if ItemModel.query.filter_by(name=self.name).first():
             ItemModel.query.filter_by(name=self.name).update(dict(price=self.price))
         else:
@@ -47,6 +48,6 @@ class ItemModel(db.Model): #extend db.Model for SQLAlechemy
         db.session.commit()
 
     def delete_from_db(self):
-        '''delete record from DB'''
+        """delete record from DB"""
         db.session.delete(self)
         db.session.commit()
