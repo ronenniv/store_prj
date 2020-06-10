@@ -18,7 +18,6 @@ class ItemModel(db.Model):  # extend db.Model for SQLAlechemy
     store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))  # define foreign key to stores table
     store = db.relationship('StoreModel')  # define the relation to the object
 
-
     def __init__(self, name, price, store_id):
         self.name = name
         self.price = price

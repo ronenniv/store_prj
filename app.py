@@ -8,8 +8,9 @@ from flask_jwt import JWT
 from flask_restful import Api
 
 from resources.item import Item, ItemList
-from resources.user import UserRegister
 from resources.store import Store, StoreList
+from resources.user import UserRegister
+
 
 from security import authenticate, identity
 

@@ -1,9 +1,10 @@
+from flask import current_app
+
 from flask_jwt import jwt_required
 
 from flask_restful import Resource
 
 from models.item import ItemModel
-from flask import current_app
 
 
 class Item(Resource):
@@ -54,5 +55,3 @@ class ItemList(Resource):
     @jwt_required()
     def get(self):
         return {'items': [item.json() for item in ItemModel.query.all()]}
-
-
