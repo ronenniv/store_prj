@@ -1,6 +1,7 @@
 from db import db
 
-class UserModel(db.Model): #extend db.Model for SQLAlechemy
+
+class UserModel(db.Model):  # extend db.Model for SQLAlechemy
 
     __tablename__ = 'users'
 
@@ -10,7 +11,6 @@ class UserModel(db.Model): #extend db.Model for SQLAlechemy
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(80))
-
 
     def __init__(self, username, password):
         self.username = username
@@ -27,4 +27,3 @@ class UserModel(db.Model): #extend db.Model for SQLAlechemy
     @classmethod
     def find_by_id(cls, _id):
         return UserModel.query.filter_by(id=_id).first()
-
