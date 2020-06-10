@@ -1,4 +1,5 @@
 from flask_restful import Resource
+
 from models.store import StoreModel
 
 
@@ -25,7 +26,7 @@ class Store(Resource):
             store.delete_from_db()
             return {"message": f"Store {name} deleted"}, 200
         else:
-            return {"message": f"store not found"}, 404
+            return {"message": f"store {name} not found"}, 404
 
 
 class StoreList(Resource):

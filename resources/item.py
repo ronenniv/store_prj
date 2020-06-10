@@ -13,7 +13,7 @@ class Item(Resource):
             print(f"item.json={item.json()}")
             return {'item': item.json()}, 200
         else:
-            return {"message" : "item not found"}, 404 # 404 not found
+            return {"message": "item not found"}, 404  # 404 not found
 
     @jwt_required()
     def post(self, name):

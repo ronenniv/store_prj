@@ -12,8 +12,8 @@ class StoreModel(db.Model):  # extend db.Model for SQLAlechemy
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True)
 
-    items = db.relationship('ItemModel', lazy='dynamic')  # this definition comes together with the define in StoreModel. Lazy will ask to note create entires for items
-
+    items = db.relationship('ItemModel', lazy='dynamic')  # this definition comes together with the define in
+    # StoreModel. Lazy will ask to note create entries for items
 
     def __init__(self, name):
         self.name = name
@@ -31,7 +31,7 @@ class StoreModel(db.Model):  # extend db.Model for SQLAlechemy
     def find_by_name(cls, name):
         """find in DB the store with name
         if found update price and return True, otherwise False"""
-        return cls.query.filter_by(name=name).first() # SQLAlchemy -> SELECT * FROM item WHERE name=name
+        return cls.query.filter_by(name=name).first()  # SQLAlchemy -> SELECT * FROM item WHERE name=name
 
     def save_to_db(self):
         '''update or insert to the DB new store'''
